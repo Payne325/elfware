@@ -30,6 +30,9 @@ pub(super) fn move_elf(
         let vel = direction.normalize() * elf_speed;
         elf.x = vel.x;
         elf.y = vel.y;
+    } else {
+        elf.x = 0.0;
+        elf.y = 0.0;
     }
 }
 
