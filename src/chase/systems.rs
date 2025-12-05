@@ -56,3 +56,9 @@ pub(super) fn toggle_game_state(
         ChaseGameState::Off => next_state.set(ChaseGameState::On),
     }
 }
+
+pub(super) fn print_started_collisions(mut collision_reader: MessageReader<CollisionStart>) {
+    if collision_reader.read().count() > 0 {
+        println!("dog has got the elf!");
+    }
+}

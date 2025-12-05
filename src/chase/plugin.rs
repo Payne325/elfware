@@ -13,6 +13,7 @@ impl Plugin for ChasePlugin {
             (
                 systems::move_elf.run_if(in_state(ChaseGameState::On)),
                 systems::move_dog.run_if(in_state(ChaseGameState::On)),
+                systems::print_started_collisions.run_if(in_state(ChaseGameState::On)),
             ),
         );
         app.init_state::<ChaseGameState>();

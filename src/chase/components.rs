@@ -12,6 +12,7 @@ pub(super) struct ElfBundle {
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
+    collision_events: CollisionEventsEnabled,
 }
 
 impl Elf {
@@ -23,6 +24,7 @@ impl Elf {
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(64., 64.),
             gravity_scale: GravityScale(0.0),
+            collision_events: CollisionEventsEnabled,
         }
     }
 }
@@ -38,6 +40,7 @@ pub(super) struct DogBundle {
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
+    collision_events: CollisionEventsEnabled,
 }
 
 impl Dog {
@@ -49,6 +52,7 @@ impl Dog {
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(109., 133.),
             gravity_scale: GravityScale(0.0),
+            collision_events: CollisionEventsEnabled,
         }
     }
 }
