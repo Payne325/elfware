@@ -1,5 +1,6 @@
 use avian2d::prelude::*;
 use bevy::prelude::*;
+use bevy_aseprite_ultra::prelude::*;
 
 #[derive(Component)]
 pub(super) struct Elf {}
@@ -8,11 +9,12 @@ pub(super) struct Elf {}
 pub(super) struct ElfBundle {
     elf: Elf,
     transform: Transform,
-    sprite: Sprite,
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
     collision_events: CollisionEventsEnabled,
+    animation: AseAnimation,
+    sprite: Sprite,
 }
 
 impl Elf {
@@ -20,11 +22,15 @@ impl Elf {
         ElfBundle {
             elf: Elf {},
             transform: Transform::from_xyz(0.0, 0.0, 0.0),
-            sprite: Sprite::from_image(asset_server.load("sprites/elf.png")),
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(64., 64.),
             gravity_scale: GravityScale(0.0),
             collision_events: CollisionEventsEnabled,
+            animation: AseAnimation {
+                aseprite: asset_server.load("sprites/elf.aseprite"),
+                animation: Animation::tag("run").with_repeat(AnimationRepeat::Loop),
+            },
+            sprite: Sprite::default(),
         }
     }
 }

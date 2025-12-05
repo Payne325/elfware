@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 bevy = "0.17.2"
 avian2d = "0.4"
+bevy_aseprite_ultra = "0.7.0"

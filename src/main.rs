@@ -3,6 +3,7 @@ mod chase;
 use crate::chase::ChasePlugin;
 use avian2d::prelude::*;
 use bevy::prelude::*;
+use bevy_aseprite_ultra::AsepriteUltraPlugin;
 use std::time::Duration;
 
 fn windows_settings() -> WindowPlugin {
@@ -29,6 +30,7 @@ fn main() {
             .set(ImagePlugin::default_nearest()),
     );
     app.add_plugins(PhysicsPlugins::default());
+    app.add_plugins(AsepriteUltraPlugin);
     app.add_plugins(ChasePlugin);
 
     app.add_systems(Startup, setup);
