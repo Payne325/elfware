@@ -1,12 +1,15 @@
-use crate::chase::{components::Elf, states::ChaseGameState};
+use crate::chase::{
+    components::{Dog, Elf},
+    states::ChaseGameState,
+};
 use bevy::prelude::*;
 
-pub(super) fn run_game(
+pub(super) fn move_elf(
     mut elf: Single<&mut Transform, With<Elf>>,
     keyboard: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
 ) {
-    let speed = 200.0;
+    let elf_speed = 200.0;
 
     let mut direction = Vec3::ZERO;
 
@@ -24,8 +27,18 @@ pub(super) fn run_game(
     }
 
     if direction.length() > 0.0 {
-        elf.translation += direction.normalize() * speed * time.delta_secs();
+        elf.translation += direction.normalize() * elf_speed * time.delta_secs();
     }
+}
+
+pub(super) fn move_dog(
+    mut dog: Single<&mut Transform, With<Dog>>,
+    elf: Single<&mut Transform, (With<Elf>, Without<Dog>)>,
+    time: Res<Time>,
+) {
+    let dog_speed = 200.0;
+    let dir = (elf.translation - dog.translation).normalize();
+    dog.translation += dir * dog_speed * time.delta_secs();
 }
 
 pub(super) fn toggle_game_state(

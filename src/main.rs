@@ -1,10 +1,9 @@
 mod chase;
 
-use std::time::Duration;
-
 use crate::chase::ChasePlugin;
 use avian2d::prelude::*;
 use bevy::prelude::*;
+use std::time::Duration;
 
 fn windows_settings() -> WindowPlugin {
     WindowPlugin {
