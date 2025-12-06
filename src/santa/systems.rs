@@ -30,9 +30,6 @@ pub(super) fn move_elf(
         let vel = direction.normalize() * elf_speed;
         elf.x = vel.x;
         elf.y = vel.y;
-    } else {
-        elf.x = 0.0;
-        elf.y = 0.0;
     }
 }
 
@@ -48,24 +45,20 @@ pub(super) fn toggle_game_state(
 
 pub(super) fn print_started_collisions(
     mut collision_reader: MessageReader<CollisionStart>,
-    santa: Single<Entity, With<Santa>>,
-    elf: Single<Entity, With<Elf>>,
+    mut elf: Single<(Entity, &mut Elf)>,
     ground: Single<Entity, With<Ground>>,
 ) {
+    if elf.1.is_grounded == true {
+        return;
+    }
+
     for event in collision_reader.read() {
-        if event.collider1 == santa.entity() {
-            println!("santa collided with something");
-            continue;
-        }
-
-        if event.collider1 == elf.entity() {
-            println!("elf collided with something");
-            continue;
-        }
-
-        if event.collider1 == ground.entity() {
-            println!("ground collided with something");
-            continue;
+        if (event.collider1 == ground.entity() && event.collider2 == elf.0.entity())
+            || (event.collider1 == elf.0.entity() && event.collider2 == ground.entity())
+        {
+            println!("ground and elf collided");
+            elf.1.is_grounded = true;
+            return;
         }
     }
 }

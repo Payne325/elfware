@@ -20,10 +20,10 @@ pub(super) fn observe_game_start(
     let width = vp_size.x / 2.0;
     let height = vp_size.y / 2.0;
 
-    commands.spawn(Elf::new_bundle(&asset_server));
+    commands.spawn(Elf::new_bundle(&asset_server, (width, height)));
     commands.spawn(Santa::new_bundle(&asset_server, (width, height)));
-   commands.spawn(Ground::new_bundle(&asset_server, (width, height)));
-   
+    commands.spawn(Ground::new_bundle(&asset_server, (width, height)));
+
     println!("BADABING!");
     toggle_game_state(state, next_state);
 }

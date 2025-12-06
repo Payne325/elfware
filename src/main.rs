@@ -84,9 +84,7 @@ impl MiniGameTimer {
     }
 
     fn should_end(&self) -> bool {
-        //debug
-        false
-        // self.timer.is_finished() && !self.waiting_to_start
+        self.timer.is_finished() && !self.waiting_to_start
     }
 }
 
@@ -95,11 +93,14 @@ fn check_timer(
     mut mini_game_timer: Single<&mut MiniGameTimer>,
     time: Res<Time>,
 ) {
+    static mut DEBUG_FLAG: bool = true;
+
     mini_game_timer.tick(time.delta());
 
-    if mini_game_timer.should_start() {
+    if unsafe { DEBUG_FLAG } && mini_game_timer.should_start() {
         commands.trigger(santa::StartGame {});
-    } else if mini_game_timer.should_end() {
+        unsafe { DEBUG_FLAG = false };
+    } else if unsafe { DEBUG_FLAG } && mini_game_timer.should_end() {
         commands.trigger(santa::EndGame {});
     }
 }
