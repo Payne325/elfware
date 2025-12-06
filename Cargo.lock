@@ -2231,6 +2231,7 @@ dependencies = [
  "avian2d",
  "bevy",
  "bevy_aseprite_ultra",
+ "bevy_input",
 ]
 
 [[package]]

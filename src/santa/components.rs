@@ -50,10 +50,19 @@ pub(super) struct SantaBundle {
 }
 
 impl Santa {
-    pub(super) fn new_bundle(asset_server: &Res<AssetServer>) -> SantaBundle {
+    pub(super) fn new_bundle(
+        asset_server: &Res<AssetServer>,
+        screen_size: (f32, f32),
+    ) -> SantaBundle {
+        // top left of screen as origin is centre
+        let x_pos = screen_size.0 / 2.0;
+        let y_pos = screen_size.1 / 2.0;
+
+        println!("santa position: {:?}", (x_pos, y_pos));
+
         SantaBundle {
             santa: Santa {},
-            transform: Transform::from_xyz(-400.0, 400.0, 0.0),
+            transform: Transform::from_xyz(x_pos, y_pos, 0.0),
             sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(109., 133.),

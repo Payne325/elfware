@@ -3,8 +3,12 @@ mod santa;
 
 use crate::{chase::ChasePlugin, santa::SantaPlugin};
 use avian2d::prelude::*;
-use bevy::{prelude::*, window::WindowMode};
+use bevy::{
+    prelude::*,
+    window::{WindowMode, WindowResolution},
+};
 use bevy_aseprite_ultra::AsepriteUltraPlugin;
+use bevy_input::common_conditions::input_just_pressed;
 use std::time::Duration;
 
 fn windows_settings() -> WindowPlugin {
@@ -12,6 +16,7 @@ fn windows_settings() -> WindowPlugin {
         primary_window: Some(Window {
             title: "Elfware".into(),
             name: Some("elfware.app".into()),
+            resolution: WindowResolution::new(1280, 720),
             mode: WindowMode::BorderlessFullscreen(MonitorSelection::Primary),
             resizable: true,
             ..Default::default()
@@ -36,6 +41,7 @@ fn main() {
 
     app.add_systems(Startup, setup);
     app.add_systems(Update, check_timer);
+    app.add_systems(Update, esc.run_if(input_just_pressed(KeyCode::Escape)));
     app.insert_resource(ClearColor(MAGENTA));
     app.run();
 }
@@ -43,6 +49,10 @@ fn main() {
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
     commands.spawn(MiniGameTimer::new());
+}
+
+fn esc(mut ev_exit: MessageWriter<AppExit>) {
+    ev_exit.write(AppExit::Success);
 }
 
 #[derive(Component)]
@@ -54,7 +64,7 @@ struct MiniGameTimer {
 impl MiniGameTimer {
     fn new() -> Self {
         Self {
-            timer: Timer::new(Duration::from_secs(5), TimerMode::Repeating),
+            timer: Timer::new(Duration::from_secs(3), TimerMode::Repeating),
             waiting_to_start: true,
         }
     }
