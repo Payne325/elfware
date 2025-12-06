@@ -69,7 +69,12 @@ fn check_timer(
     if game_manager.should_start() {
         match game_manager.current_game() {
             game_manager::MiniGame::Chase => commands.trigger(chase::StartGame {}),
-            game_manager::MiniGame::Santa => commands.trigger(santa::StartGame {}),
+            game_manager::MiniGame::Santa => {
+                commands.trigger(santa::StartGame {});
+                commands.trigger(background::ChangeBackground::custom(
+                    "sprites/santa_background.png",
+                ));
+            }
         }
     } else if game_manager.should_end() {
         match game_manager.current_game() {
