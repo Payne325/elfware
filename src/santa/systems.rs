@@ -1,5 +1,5 @@
 use crate::santa::{
-    components::{Elf, Ground, Santa},
+    components::{Elf, Santa},
     states::SantaGameState,
 };
 use avian2d::prelude::*;
@@ -17,10 +17,10 @@ pub(super) fn move_elf(
         //elf.1.is_grounded = false;
     }
     if keyboard.pressed(KeyCode::KeyA) {
-        elf.0.x = -1.0 * elf_speed;
+        elf.0.x = -elf_speed;
     }
     if keyboard.pressed(KeyCode::KeyD) {
-        elf.0.x = 1.0 * elf_speed;
+        elf.0.x = elf_speed;
     }
 }
 
