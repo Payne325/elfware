@@ -1,3 +1,4 @@
+use avian2d::prelude::*;
 use bevy::prelude::*;
 
 use crate::santa::{
@@ -45,3 +46,21 @@ pub(super) fn observe_game_end(
     println!("BADABONG!");
     toggle_game_state(state, next_state);
 }
+
+// pub(super) fn on_elf_stepped_on_platform(
+//     event: On<CollisionStart>,
+//     elf_entity: Single<(Entity, &mut Elf)>,
+//     // mut elf: Single<&mut Elf>,
+// ) {
+//     // `colider1` refers to the event target.
+//     // `collider2` refers to the other collider.
+//     let other_entity = event.collider1;
+//     println!("ALEX is here.");
+
+//     let (ent, mut elf) = elf_entity.into_inner();
+
+//     if ent == other_entity {
+//         println!("platform and elf collided");
+//         elf.is_grounded = true;
+//     }
+// }

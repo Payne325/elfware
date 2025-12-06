@@ -12,9 +12,9 @@ pub(super) fn move_elf(
     let elf_speed = 200.0;
     let elf_jump_speed = 500.;
 
-    if keyboard.pressed(KeyCode::KeyW) && elf.1.is_grounded {
+    if keyboard.pressed(KeyCode::KeyW) && elf.0.y == 0.0 {
         elf.0.y = elf_jump_speed;
-        elf.1.is_grounded = false;
+        //elf.1.is_grounded = false;
     }
     if keyboard.pressed(KeyCode::KeyA) {
         elf.0.x = -1.0 * elf_speed;
@@ -34,22 +34,22 @@ pub(super) fn toggle_game_state(
     }
 }
 
-pub(super) fn print_started_collisions(
-    mut collision_reader: MessageReader<CollisionStart>,
-    mut elf: Single<(Entity, &mut Elf)>,
-    ground: Single<Entity, With<Ground>>,
-) {
-    if elf.1.is_grounded == true {
-        return;
-    }
+// pub(super) fn print_started_collisions(
+//     mut collision_reader: MessageReader<CollisionStart>,
+//     mut elf: Single<(Entity, &mut Elf)>,
+//     ground: Single<Entity, With<Ground>>,
+// ) {
+//     if elf.1.is_grounded == true {
+//         return;
+//     }
 
-    for event in collision_reader.read() {
-        if (event.collider1 == ground.entity() && event.collider2 == elf.0.entity())
-            || (event.collider1 == elf.0.entity() && event.collider2 == ground.entity())
-        {
-            println!("ground and elf collided");
-            elf.1.is_grounded = true;
-            return;
-        }
-    }
-}
+//     for event in collision_reader.read() {
+//         if (event.collider1 == ground.entity() && event.collider2 == elf.0.entity())
+//             || (event.collider1 == elf.0.entity() && event.collider2 == ground.entity())
+//         {
+//             println!("ground and elf collided");
+//             elf.1.is_grounded = true;
+//             return;
+//         }
+//     }
+// }
