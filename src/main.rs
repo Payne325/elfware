@@ -1,8 +1,9 @@
+mod background;
 mod chase;
 mod game_manager;
 mod santa;
 
-use crate::{chase::ChasePlugin, santa::SantaPlugin};
+use crate::{background::BackgroundPlugin, chase::ChasePlugin, santa::SantaPlugin};
 use avian2d::prelude::*;
 use bevy::{
     prelude::*,
@@ -16,7 +17,7 @@ fn windows_settings() -> WindowPlugin {
         primary_window: Some(Window {
             title: "Elfware".into(),
             name: Some("elfware.app".into()),
-            resolution: WindowResolution::new(1280, 720),
+            resolution: WindowResolution::new(1280, 720), // 1920 x 1080
             mode: WindowMode::BorderlessFullscreen(MonitorSelection::Primary),
             resizable: true,
             ..Default::default()
@@ -36,6 +37,7 @@ fn main() {
     );
     app.add_plugins(PhysicsPlugins::default());
     app.add_plugins(AsepriteUltraPlugin);
+    app.add_plugins(BackgroundPlugin);
     app.add_plugins(ChasePlugin);
     app.add_plugins(SantaPlugin);
 
@@ -50,6 +52,7 @@ fn main() {
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
     commands.spawn(game_manager::GameManager::new());
+    commands.trigger(background::ChangeBackground::title());
 }
 
 fn esc(mut ev_exit: MessageWriter<AppExit>) {
@@ -73,5 +76,7 @@ fn check_timer(
             game_manager::MiniGame::Chase => commands.trigger(chase::EndGame {}),
             game_manager::MiniGame::Santa => commands.trigger(santa::EndGame {}),
         };
+
+        commands.trigger(background::ChangeBackground::title());
     }
 }
