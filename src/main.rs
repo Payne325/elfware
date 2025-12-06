@@ -84,7 +84,9 @@ impl MiniGameTimer {
     }
 
     fn should_end(&self) -> bool {
-        self.timer.is_finished() && !self.waiting_to_start
+        //debug
+        false
+        // self.timer.is_finished() && !self.waiting_to_start
     }
 }
 

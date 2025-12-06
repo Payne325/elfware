@@ -1,5 +1,5 @@
 use crate::santa::{
-    components::{Elf, Santa},
+    components::{Elf, Ground, Santa},
     states::SantaGameState,
 };
 use avian2d::prelude::*;
@@ -46,8 +46,26 @@ pub(super) fn toggle_game_state(
     }
 }
 
-pub(super) fn print_started_collisions(mut collision_reader: MessageReader<CollisionStart>) {
-    if collision_reader.read().count() > 0 {
-        println!("dog has got the elf!");
+pub(super) fn print_started_collisions(
+    mut collision_reader: MessageReader<CollisionStart>,
+    santa: Single<Entity, With<Santa>>,
+    elf: Single<Entity, With<Elf>>,
+    ground: Single<Entity, With<Ground>>,
+) {
+    for event in collision_reader.read() {
+        if event.collider1 == santa.entity() {
+            println!("santa collided with something");
+            continue;
+        }
+
+        if event.collider1 == elf.entity() {
+            println!("elf collided with something");
+            continue;
+        }
+
+        if event.collider1 == ground.entity() {
+            println!("ground collided with something");
+            continue;
+        }
     }
 }

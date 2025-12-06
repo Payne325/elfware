@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::santa::{
-    components::{Elf, Santa},
+    components::{Elf, Ground, Santa},
     events::{EndGame, StartGame},
     states::SantaGameState,
     systems::toggle_game_state,
@@ -22,7 +22,8 @@ pub(super) fn observe_game_start(
 
     commands.spawn(Elf::new_bundle(&asset_server));
     commands.spawn(Santa::new_bundle(&asset_server, (width, height)));
-
+   commands.spawn(Ground::new_bundle(&asset_server, (width, height)));
+   
     println!("BADABING!");
     toggle_game_state(state, next_state);
 }
