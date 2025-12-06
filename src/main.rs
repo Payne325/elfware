@@ -43,6 +43,7 @@ fn main() {
     app.add_systems(Update, check_timer);
     app.add_systems(Update, esc.run_if(input_just_pressed(KeyCode::Escape)));
     app.insert_resource(ClearColor(MAGENTA));
+    app.insert_resource(Gravity(Vec2::NEG_Y * 500.));
     app.run();
 }
 

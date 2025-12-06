@@ -6,30 +6,21 @@ use avian2d::prelude::*;
 use bevy::prelude::*;
 
 pub(super) fn move_elf(
-    mut elf: Single<&mut LinearVelocity, With<Elf>>,
+    mut elf: Single<(&mut LinearVelocity, &mut Elf)>,
     keyboard: Res<ButtonInput<KeyCode>>,
 ) {
     let elf_speed = 200.0;
+    let elf_jump_speed = 500.;
 
-    let mut direction = Vec3::ZERO;
-
-    if keyboard.pressed(KeyCode::KeyW) {
-        direction.y += 1.0;
-    }
-    if keyboard.pressed(KeyCode::KeyS) {
-        direction.y -= 1.0;
+    if keyboard.pressed(KeyCode::KeyW) && elf.1.is_grounded {
+        elf.0.y = elf_jump_speed;
+        elf.1.is_grounded = false;
     }
     if keyboard.pressed(KeyCode::KeyA) {
-        direction.x -= 1.0;
+        elf.0.x = -1.0 * elf_speed;
     }
     if keyboard.pressed(KeyCode::KeyD) {
-        direction.x += 1.0;
-    }
-
-    if direction.length() > 0.0 {
-        let vel = direction.normalize() * elf_speed;
-        elf.x = vel.x;
-        elf.y = vel.y;
+        elf.0.x = 1.0 * elf_speed;
     }
 }
 

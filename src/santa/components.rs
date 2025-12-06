@@ -17,6 +17,7 @@ pub(super) struct ElfBundle {
     collision_events: CollisionEventsEnabled,
     animation: AseAnimation,
     sprite: Sprite,
+    locked_axes: LockedAxes,
 }
 
 impl Elf {
@@ -40,6 +41,7 @@ impl Elf {
                 animation: Animation::tag("run").with_repeat(AnimationRepeat::Loop),
             },
             sprite: Sprite::default(),
+            locked_axes: LockedAxes::ROTATION_LOCKED,
         }
     }
 }
@@ -106,8 +108,10 @@ impl Ground {
 
         println!("ground position: {:?}", (x_pos, y_pos));
 
-        let ground_width = screen_size.0;
+        let ground_width = 1920.;
         let ground_height = 64.;
+
+        println!("ground size: {:?}", (ground_width, ground_height));
 
         GroundBundle {
             ground: Ground {},
