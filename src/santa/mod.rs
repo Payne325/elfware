@@ -9,4 +9,4 @@ mod states;
 mod systems;
 
 pub(super) use events::{EndGame, StartGame};
-pub(super) use plugin::ChasePlugin;
+pub(super) use plugin::SantaPlugin;

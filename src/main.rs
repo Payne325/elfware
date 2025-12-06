@@ -1,8 +1,9 @@
 mod chase;
+mod santa;
 
-use crate::chase::ChasePlugin;
+use crate::{chase::ChasePlugin, santa::SantaPlugin};
 use avian2d::prelude::*;
-use bevy::prelude::*;
+use bevy::{prelude::*, window::WindowMode};
 use bevy_aseprite_ultra::AsepriteUltraPlugin;
 use std::time::Duration;
 
@@ -11,8 +12,7 @@ fn windows_settings() -> WindowPlugin {
         primary_window: Some(Window {
             title: "Elfware".into(),
             name: Some("elfware.app".into()),
-            resolution: (800, 600).into(),
-            position: WindowPosition::Centered(MonitorSelection::Primary),
+            mode: WindowMode::BorderlessFullscreen(MonitorSelection::Primary),
             resizable: true,
             ..Default::default()
         }),
@@ -32,6 +32,7 @@ fn main() {
     app.add_plugins(PhysicsPlugins::default());
     app.add_plugins(AsepriteUltraPlugin);
     app.add_plugins(ChasePlugin);
+    app.add_plugins(SantaPlugin);
 
     app.add_systems(Startup, setup);
     app.add_systems(Update, check_timer);
@@ -85,8 +86,8 @@ fn check_timer(
     mini_game_timer.tick(time.delta());
 
     if mini_game_timer.should_start() {
-        commands.trigger(chase::StartChaseGame {});
+        commands.trigger(santa::StartGame {});
     } else if mini_game_timer.should_end() {
-        commands.trigger(chase::EndChaseGame {});
+        commands.trigger(santa::EndGame {});
     }
 }
