@@ -37,11 +37,19 @@ pub(super) fn observe_game_end(
     mut commands: Commands,
     elf: Single<Entity, With<Elf>>,
     dawg: Single<Entity, With<Santa>>,
+    ground: Single<Entity, With<Ground>>,
+    platform: Query<Entity, With<Platform>>,
     state: Res<State<SantaGameState>>,
     next_state: ResMut<NextState<SantaGameState>>,
 ) {
     commands.entity(elf.entity()).despawn();
     commands.entity(dawg.entity()).despawn();
+    commands.entity(ground.entity()).despawn();
+
+    for p in platform.iter() {
+        commands.entity(p.entity()).despawn();
+    }
+
     println!("BADABONG!");
     toggle_game_state(state, next_state);
 }

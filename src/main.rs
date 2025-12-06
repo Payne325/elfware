@@ -1,4 +1,5 @@
 mod chase;
+mod game_manager;
 mod santa;
 
 use crate::{chase::ChasePlugin, santa::SantaPlugin};
@@ -9,7 +10,6 @@ use bevy::{
 };
 use bevy_aseprite_ultra::AsepriteUltraPlugin;
 use bevy_input::common_conditions::input_just_pressed;
-use std::time::Duration;
 
 fn windows_settings() -> WindowPlugin {
     WindowPlugin {
@@ -49,59 +49,29 @@ fn main() {
 
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
-    commands.spawn(MiniGameTimer::new());
+    commands.spawn(game_manager::GameManager::new());
 }
 
 fn esc(mut ev_exit: MessageWriter<AppExit>) {
     ev_exit.write(AppExit::Success);
 }
 
-#[derive(Component)]
-struct MiniGameTimer {
-    timer: Timer,
-    waiting_to_start: bool,
-}
-
-impl MiniGameTimer {
-    fn new() -> Self {
-        Self {
-            timer: Timer::new(Duration::from_secs(3), TimerMode::Repeating),
-            waiting_to_start: true,
-        }
-    }
-
-    fn tick(&mut self, delta: Duration) {
-        self.timer.tick(delta);
-
-        let finished = self.timer.is_finished();
-
-        if finished {
-            self.waiting_to_start = !self.waiting_to_start;
-        }
-    }
-
-    fn should_start(&self) -> bool {
-        self.timer.is_finished() && self.waiting_to_start
-    }
-
-    fn should_end(&self) -> bool {
-        self.timer.is_finished() && !self.waiting_to_start
-    }
-}
-
 fn check_timer(
     mut commands: Commands,
-    mut mini_game_timer: Single<&mut MiniGameTimer>,
+    mut game_manager: Single<&mut game_manager::GameManager>,
     time: Res<Time>,
 ) {
-    static mut DEBUG_FLAG: bool = true;
+    game_manager.tick(time.delta());
 
-    mini_game_timer.tick(time.delta());
-
-    if unsafe { DEBUG_FLAG } && mini_game_timer.should_start() {
-        commands.trigger(santa::StartGame {});
-        unsafe { DEBUG_FLAG = false };
-    } else if unsafe { DEBUG_FLAG } && mini_game_timer.should_end() {
-        commands.trigger(santa::EndGame {});
+    if game_manager.should_start() {
+        match game_manager.current_game() {
+            game_manager::MiniGame::Chase => commands.trigger(chase::StartGame {}),
+            game_manager::MiniGame::Santa => commands.trigger(santa::StartGame {}),
+        }
+    } else if game_manager.should_end() {
+        match game_manager.current_game() {
+            game_manager::MiniGame::Chase => commands.trigger(chase::EndGame {}),
+            game_manager::MiniGame::Santa => commands.trigger(santa::EndGame {}),
+        };
     }
 }
