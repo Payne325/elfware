@@ -42,11 +42,13 @@ pub(super) struct Dog {}
 pub(super) struct DogBundle {
     dog: Dog,
     transform: Transform,
-    sprite: Sprite,
+    // sprite: Sprite,
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
     collision_events: CollisionEventsEnabled,
+    animation: AseAnimation,
+    sprite: Sprite,
 }
 
 impl Dog {
@@ -54,11 +56,16 @@ impl Dog {
         DogBundle {
             dog: Dog {},
             transform: Transform::from_xyz(-400.0, 400.0, 0.0),
-            sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
+            //sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(109., 133.),
             gravity_scale: GravityScale(0.0),
             collision_events: CollisionEventsEnabled,
+            animation: AseAnimation {
+                aseprite: asset_server.load("sprites/alexsDog.aseprite"),
+                animation: Animation::tag("run").with_repeat(AnimationRepeat::Loop),
+            },
+            sprite: Sprite::default(),
         }
     }
 }
