@@ -76,7 +76,7 @@ impl Santa {
             transform: Transform::from_xyz(x_pos, y_pos, 0.0),
             sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
             rigid_body: RigidBody::Kinematic,
-            collider: Collider::rectangle(109., 133.),
+            collider: Collider::rectangle(90., 117.),
             gravity_scale: GravityScale(0.0),
             collision_events: CollisionEventsEnabled,
         }
@@ -150,7 +150,7 @@ impl Platform {
 
             let (platform_width, platform_height) = (384., 64.); // todo: update
 
-            let offset = if index % 2 == 0 { 1. } else { -1. };
+            let offset = if index % 2 == 0 { -1. } else { 1. };
             let x_pos = (platform_width / 2.) * offset;
             let y_pos = (-screen_size.1 * 0.9) + (f32::from(index) * STEP);
 

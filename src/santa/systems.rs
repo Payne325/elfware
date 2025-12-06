@@ -34,22 +34,17 @@ pub(super) fn toggle_game_state(
     }
 }
 
-// pub(super) fn print_started_collisions(
-//     mut collision_reader: MessageReader<CollisionStart>,
-//     mut elf: Single<(Entity, &mut Elf)>,
-//     ground: Single<Entity, With<Ground>>,
-// ) {
-//     if elf.1.is_grounded == true {
-//         return;
-//     }
-
-//     for event in collision_reader.read() {
-//         if (event.collider1 == ground.entity() && event.collider2 == elf.0.entity())
-//             || (event.collider1 == elf.0.entity() && event.collider2 == ground.entity())
-//         {
-//             println!("ground and elf collided");
-//             elf.1.is_grounded = true;
-//             return;
-//         }
-//     }
-// }
+pub(super) fn detect_santa_elf_collision(
+    mut collision_reader: MessageReader<CollisionStart>,
+    elf: Single<(Entity, &Elf)>,
+    santa: Single<(Entity, &Santa)>,
+) {
+    for event in collision_reader.read() {
+        if (event.collider1 == santa.0 && event.collider2 == elf.0)
+            || (event.collider1 == elf.0 && event.collider2 == santa.0)
+        {
+            println!("santa and elf collided");
+            return;
+        }
+    }
+}

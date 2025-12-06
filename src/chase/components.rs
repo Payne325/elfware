@@ -58,7 +58,7 @@ impl Dog {
             transform: Transform::from_xyz(-400.0, 400.0, 0.0),
             //sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
             rigid_body: RigidBody::Kinematic,
-            collider: Collider::rectangle(109., 133.),
+            collider: Collider::rectangle(64., 64.),
             gravity_scale: GravityScale(0.0),
             collision_events: CollisionEventsEnabled,
             animation: AseAnimation {

@@ -99,9 +99,9 @@ fn check_timer(
     mini_game_timer.tick(time.delta());
 
     if unsafe { DEBUG_FLAG } && mini_game_timer.should_start() {
-        commands.trigger(chase::StartGame {});
+        commands.trigger(santa::StartGame {});
         unsafe { DEBUG_FLAG = false };
     } else if unsafe { DEBUG_FLAG } && mini_game_timer.should_end() {
-        commands.trigger(chase::EndGame {});
+        commands.trigger(santa::EndGame {});
     }
 }
