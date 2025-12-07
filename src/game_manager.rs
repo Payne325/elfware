@@ -4,7 +4,7 @@ use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 // All new games need an entry here.
-#[derive(Clone, EnumIter, Eq, PartialEq)]
+#[derive(Clone, Debug, EnumIter, Eq, Hash, PartialEq)]
 pub(crate) enum MiniGame {
     Chase,
     Santa,
@@ -64,3 +64,21 @@ pub struct StartGame(pub(crate) MiniGame);
 
 #[derive(Event)]
 pub struct EndGame(pub(crate) MiniGame);
+
+#[derive(States, Default, Debug, Clone, PartialEq, Eq, Hash)]
+pub(crate) enum GameState {
+    On(MiniGame),
+    #[default]
+    Off,
+}
+
+pub(crate) fn toggle_game_state(
+    state: Res<State<GameState>>,
+    mut next_state: ResMut<NextState<GameState>>,
+    game: MiniGame,
+) {
+    match state.get() {
+        GameState::On(_) => next_state.set(GameState::Off),
+        GameState::Off => next_state.set(GameState::On(game)),
+    }
+}

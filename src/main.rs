@@ -6,7 +6,7 @@ mod santa;
 use crate::{
     background::{BackgroundPlugin, ChangeBackground},
     chase::ChasePlugin,
-    game_manager::{EndGame, GameManager, MiniGame, StartGame},
+    game_manager::{EndGame, GameManager, GameState, MiniGame, StartGame},
     santa::SantaPlugin,
 };
 use avian2d::prelude::*;
@@ -51,6 +51,7 @@ fn main() {
     app.add_systems(Update, esc.run_if(input_just_pressed(KeyCode::Escape)));
     app.insert_resource(ClearColor(MAGENTA));
     app.insert_resource(Gravity(Vec2::NEG_Y * 500.));
+    app.init_state::<GameState>();
     app.run();
 }
 

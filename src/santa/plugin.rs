@@ -1,4 +1,7 @@
-use crate::santa::{observers, states::SantaGameState, systems};
+use crate::{
+    game_manager::{GameState, MiniGame},
+    santa::{observers, systems},
+};
 use bevy::prelude::*;
 
 pub(crate) struct SantaPlugin;
@@ -10,10 +13,10 @@ impl Plugin for SantaPlugin {
         app.add_systems(
             Update,
             (
-                systems::move_elf.run_if(in_state(SantaGameState::On)),
-                systems::detect_santa_elf_collision.run_if(in_state(SantaGameState::On)),
+                systems::move_elf.run_if(in_state(GameState::On(MiniGame::Santa))),
+                systems::detect_santa_elf_collision
+                    .run_if(in_state(GameState::On(MiniGame::Santa))),
             ),
         );
-        app.init_state::<SantaGameState>();
     }
 }

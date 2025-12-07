@@ -1,7 +1,4 @@
-use crate::santa::{
-    components::{Elf, Santa},
-    states::SantaGameState,
-};
+use crate::santa::components::{Elf, Santa};
 use avian2d::prelude::*;
 use bevy::prelude::*;
 
@@ -20,16 +17,6 @@ pub(super) fn move_elf(
     }
     if keyboard.pressed(KeyCode::KeyD) {
         elf.0.x = elf_speed;
-    }
-}
-
-pub(super) fn toggle_game_state(
-    state: Res<State<SantaGameState>>,
-    mut next_state: ResMut<NextState<SantaGameState>>,
-) {
-    match state.get() {
-        SantaGameState::On => next_state.set(SantaGameState::Off),
-        SantaGameState::Off => next_state.set(SantaGameState::On),
     }
 }
 

@@ -1,7 +1,4 @@
-use crate::chase::{
-    components::{Dog, Elf},
-    states::ChaseGameState,
-};
+use crate::chase::components::{Dog, Elf};
 use avian2d::prelude::*;
 use bevy::prelude::*;
 
@@ -45,16 +42,6 @@ pub(super) fn move_dog(
 
     dog.0.x = dir.x;
     dog.0.y = dir.y;
-}
-
-pub(super) fn toggle_game_state(
-    state: Res<State<ChaseGameState>>,
-    mut next_state: ResMut<NextState<ChaseGameState>>,
-) {
-    match state.get() {
-        ChaseGameState::On => next_state.set(ChaseGameState::Off),
-        ChaseGameState::Off => next_state.set(ChaseGameState::On),
-    }
 }
 
 pub(super) fn print_started_collisions(mut collision_reader: MessageReader<CollisionStart>) {

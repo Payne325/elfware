@@ -1,10 +1,6 @@
 use crate::{
-    game_manager::{EndGame, MiniGame, StartGame},
-    santa::{
-        components::{Elf, Ground, Platform, Santa},
-        states::SantaGameState,
-        systems::toggle_game_state,
-    },
+    game_manager::{EndGame, GameState, MiniGame, StartGame, toggle_game_state},
+    santa::components::{Elf, Ground, Platform, Santa},
 };
 use bevy::prelude::*;
 
@@ -13,8 +9,8 @@ pub(super) fn observe_game_start(
     camera: Single<&Camera>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    state: Res<State<SantaGameState>>,
-    next_state: ResMut<NextState<SantaGameState>>,
+    state: Res<State<GameState>>,
+    next_state: ResMut<NextState<GameState>>,
 ) {
     if event.event().0 != MiniGame::Santa {
         return;
@@ -29,7 +25,7 @@ pub(super) fn observe_game_start(
     for platform in Platform::new_bundles(&asset_server, screen_size) {
         commands.spawn(platform);
     }
-    toggle_game_state(state, next_state);
+    toggle_game_state(state, next_state, MiniGame::Santa);
 }
 
 pub(super) fn observe_game_end(
@@ -39,8 +35,8 @@ pub(super) fn observe_game_end(
     dawg: Single<Entity, With<Santa>>,
     ground: Single<Entity, With<Ground>>,
     platform: Query<Entity, With<Platform>>,
-    state: Res<State<SantaGameState>>,
-    next_state: ResMut<NextState<SantaGameState>>,
+    state: Res<State<GameState>>,
+    next_state: ResMut<NextState<GameState>>,
 ) {
     if event.event().0 != MiniGame::Santa {
         return;
@@ -52,5 +48,5 @@ pub(super) fn observe_game_end(
     for p in platform.iter() {
         commands.entity(p.entity()).despawn();
     }
-    toggle_game_state(state, next_state);
+    toggle_game_state(state, next_state, MiniGame::Santa);
 }
