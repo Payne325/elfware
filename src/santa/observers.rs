@@ -1,5 +1,5 @@
 use crate::{
-    game_manager::{EndGame, GameState, MiniGame, StartGame, toggle_game_state},
+    game_manager::{EndGame, GameState, MiniGame, MyMusic, StartGame, toggle_game_state},
     santa::components::{Elf, Ground, Platform, Santa},
 };
 use bevy::prelude::*;
@@ -25,6 +25,9 @@ pub(super) fn observe_game_start(
     for platform in Platform::new_bundles(&asset_server, screen_size) {
         commands.spawn(platform);
     }
+
+    // commands.spawn(MyMusic::new_bundle_once_and_cleanup(&asset_server, "TODO"));
+
     toggle_game_state(state, next_state, MiniGame::Santa);
 }
 

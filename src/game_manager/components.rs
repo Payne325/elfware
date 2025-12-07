@@ -1,5 +1,8 @@
 use crate::game_manager::{MiniGame, MiniGameIter};
-use bevy::prelude::*;
+use bevy::{
+    audio::{PlaybackMode, Volume},
+    prelude::*,
+};
 use std::time::Duration;
 use strum::IntoEnumIterator;
 
@@ -49,5 +52,32 @@ impl GameManager {
 
     pub(super) fn current_game(&self) -> MiniGame {
         self.current_game.clone()
+    }
+}
+
+#[derive(Component)]
+pub(crate) struct MyMusic;
+
+#[derive(Bundle)]
+pub(crate) struct MusicBundle {
+    player: AudioPlayer,
+    playback_settings: PlaybackSettings,
+    music_component: MyMusic,
+}
+
+impl MyMusic {
+    pub(crate) fn new_bundle_once_and_cleanup(
+        asset_server: &Res<AssetServer>,
+        sound_path: impl Into<String>,
+    ) -> MusicBundle {
+        MusicBundle {
+            player: AudioPlayer::new(asset_server.load(sound_path.into())),
+            playback_settings: PlaybackSettings {
+                mode: PlaybackMode::Despawn,
+                volume: Volume::Linear(0.5),
+                ..default()
+            },
+            music_component: MyMusic,
+        }
     }
 }
