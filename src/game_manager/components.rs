@@ -74,7 +74,7 @@ pub(crate) struct MusicBundle {
 }
 
 impl MyMusic {
-    pub(crate) fn new_bundle_once_and_cleanup(
+    pub(crate) fn new_bundle_once(
         asset_server: &Res<AssetServer>,
         sound_path: impl Into<String>,
     ) -> MusicBundle {

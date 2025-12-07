@@ -16,10 +16,7 @@ pub(super) fn move_elf(
 
     if keyboard.pressed(KeyCode::KeyW) && elf.0.y == 0.0 {
         elf.0.y = elf_jump_speed;
-        commands.spawn(MyMusic::new_bundle_once_and_cleanup(
-            &asset_server,
-            "audio/jump.wav",
-        ));
+        commands.spawn(MyMusic::new_bundle_once(&asset_server, "audio/jump.wav"));
     }
     if keyboard.pressed(KeyCode::KeyA) {
         elf.0.x = -elf_speed;
@@ -40,10 +37,7 @@ pub(super) fn detect_santa_elf_collision(
         if (event.collider1 == santa.0 && event.collider2 == elf.0)
             || (event.collider1 == elf.0 && event.collider2 == santa.0)
         {
-            commands.spawn(MyMusic::new_bundle_once_and_cleanup(
-                &asset_server,
-                "audio/hit.wav",
-            ));
+            commands.spawn(MyMusic::new_bundle_once(&asset_server, "audio/hit.wav"));
             return;
         }
     }

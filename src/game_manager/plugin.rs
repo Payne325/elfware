@@ -16,7 +16,7 @@ impl Plugin for GameManagerPlugin {
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(GameManager::new());
-    commands.spawn(MyMusic::new_bundle_once_and_cleanup(
+    commands.spawn(MyMusic::new_bundle_once(
         &asset_server,
         "audio/super_elfware.mp3",
     ));

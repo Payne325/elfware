@@ -53,9 +53,6 @@ pub(super) fn print_started_collisions(
     mut collision_reader: MessageReader<CollisionStart>,
 ) {
     if collision_reader.read().count() > 0 {
-        commands.spawn(MyMusic::new_bundle_once_and_cleanup(
-            &asset_server,
-            "audio/hit.wav",
-        ));
+        commands.spawn(MyMusic::new_bundle_once(&asset_server, "audio/hit.wav"));
     }
 }
