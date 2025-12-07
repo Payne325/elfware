@@ -88,4 +88,19 @@ impl MyMusic {
             music_component: MyMusic,
         }
     }
+
+    pub(crate) fn new_bundle_loop(
+        asset_server: &Res<AssetServer>,
+        sound_path: impl Into<String>,
+    ) -> MusicBundle {
+        MusicBundle {
+            player: AudioPlayer::new(asset_server.load(sound_path.into())),
+            playback_settings: PlaybackSettings {
+                mode: PlaybackMode::Loop,
+                volume: Volume::Linear(0.5),
+                ..default()
+            },
+            music_component: MyMusic,
+        }
+    }
 }
