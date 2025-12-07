@@ -6,6 +6,9 @@ use bevy::{
 use std::time::Duration;
 use strum::IntoEnumIterator;
 
+const TITLE_SCREEN_DURATION: u64 = 3;
+const GAME_DURATION: u64 = 8;
+
 #[derive(Component)]
 pub(super) struct GameManager {
     timer: Timer,
@@ -17,7 +20,10 @@ pub(super) struct GameManager {
 impl GameManager {
     pub(super) fn new() -> Self {
         Self {
-            timer: Timer::new(Duration::from_secs(5), TimerMode::Repeating),
+            timer: Timer::new(
+                Duration::from_secs(TITLE_SCREEN_DURATION),
+                TimerMode::Repeating,
+            ),
             waiting_to_start: true,
             current_game: MiniGame::Chase,
             game_iter: MiniGame::iter(),
@@ -31,6 +37,8 @@ impl GameManager {
             self.waiting_to_start = !self.waiting_to_start;
 
             if self.waiting_to_start {
+                self.timer.set_duration(Duration::from_secs(GAME_DURATION));
+
                 match self.game_iter.next() {
                     Some(game) => {
                         println!("Next game is {game:?}");
@@ -46,6 +54,9 @@ impl GameManager {
                         println!("Next game is {:?}", self.current_game);
                     }
                 }
+            } else {
+                self.timer
+                    .set_duration(Duration::from_secs(TITLE_SCREEN_DURATION));
             }
         }
     }
@@ -82,7 +93,7 @@ impl MyMusic {
             player: AudioPlayer::new(asset_server.load(sound_path.into())),
             playback_settings: PlaybackSettings {
                 mode: PlaybackMode::Despawn,
-                volume: Volume::Linear(0.5),
+                volume: Volume::Linear(1.0),
                 ..default()
             },
             music_component: MyMusic,
