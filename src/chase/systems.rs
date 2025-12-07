@@ -1,4 +1,7 @@
-use crate::chase::components::{Dog, Elf};
+use crate::{
+    chase::components::{Dog, Elf},
+    game_manager::MyMusic,
+};
 use avian2d::prelude::*;
 use bevy::prelude::*;
 
@@ -44,8 +47,15 @@ pub(super) fn move_dog(
     dog.0.y = dir.y;
 }
 
-pub(super) fn print_started_collisions(mut collision_reader: MessageReader<CollisionStart>) {
+pub(super) fn print_started_collisions(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    mut collision_reader: MessageReader<CollisionStart>,
+) {
     if collision_reader.read().count() > 0 {
-        println!("dog has got the elf!");
+        commands.spawn(MyMusic::new_bundle_once_and_cleanup(
+            &asset_server,
+            "audio/hit.wav",
+        ));
     }
 }

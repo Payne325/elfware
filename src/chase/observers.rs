@@ -1,6 +1,6 @@
 use crate::{
     chase::components::{Dog, Elf},
-    game_manager::{EndGame, GameState, MiniGame, MyMusic, StartGame, toggle_game_state},
+    game_manager::{EndGame, GameState, MiniGame, StartGame, toggle_game_state},
 };
 use bevy::prelude::*;
 
@@ -17,7 +17,6 @@ pub(super) fn observe_game_start(
 
     commands.spawn(Elf::new_bundle(&asset_server));
     commands.spawn(Dog::new_bundle(&asset_server));
-    // commands.spawn(MyMusic::new_bundle_once_and_cleanup(&asset_server, "TODO"));
     toggle_game_state(state, next_state, MiniGame::Chase);
 }
 
