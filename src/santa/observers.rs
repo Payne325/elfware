@@ -1,19 +1,24 @@
-use crate::santa::{
-    components::{Elf, Ground, Platform, Santa},
-    events::{EndGame, StartGame},
-    states::SantaGameState,
-    systems::toggle_game_state,
+use crate::{
+    game_manager::{EndGame, MiniGame, StartGame},
+    santa::{
+        components::{Elf, Ground, Platform, Santa},
+        states::SantaGameState,
+        systems::toggle_game_state,
+    },
 };
 use bevy::prelude::*;
 
 pub(super) fn observe_game_start(
-    _event: On<StartGame>,
+    event: On<StartGame>,
     camera: Single<&Camera>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     state: Res<State<SantaGameState>>,
     next_state: ResMut<NextState<SantaGameState>>,
 ) {
+    if event.event().0 != MiniGame::Santa {
+        return;
+    }
     let vp_size = camera.logical_viewport_size().unwrap();
     let screen_size = (vp_size.x / 2.0, vp_size.y / 2.0);
 
@@ -28,7 +33,7 @@ pub(super) fn observe_game_start(
 }
 
 pub(super) fn observe_game_end(
-    _event: On<EndGame>,
+    event: On<EndGame>,
     mut commands: Commands,
     elf: Single<Entity, With<Elf>>,
     dawg: Single<Entity, With<Santa>>,
@@ -37,6 +42,9 @@ pub(super) fn observe_game_end(
     state: Res<State<SantaGameState>>,
     next_state: ResMut<NextState<SantaGameState>>,
 ) {
+    if event.event().0 != MiniGame::Santa {
+        return;
+    }
     commands.entity(elf.entity()).despawn();
     commands.entity(dawg.entity()).despawn();
     commands.entity(ground.entity()).despawn();

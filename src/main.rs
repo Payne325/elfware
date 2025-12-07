@@ -3,7 +3,12 @@ mod chase;
 mod game_manager;
 mod santa;
 
-use crate::{background::BackgroundPlugin, chase::ChasePlugin, santa::SantaPlugin};
+use crate::{
+    background::{BackgroundPlugin, ChangeBackground},
+    chase::ChasePlugin,
+    game_manager::{EndGame, GameManager, MiniGame, StartGame},
+    santa::SantaPlugin,
+};
 use avian2d::prelude::*;
 use bevy::{
     prelude::*,
@@ -51,7 +56,7 @@ fn main() {
 
 fn setup(mut commands: Commands) {
     commands.spawn(Camera2d);
-    commands.spawn(game_manager::GameManager::new());
+    commands.spawn(GameManager::new());
     commands.trigger(background::ChangeBackground::title());
 }
 
@@ -61,32 +66,28 @@ fn esc(mut ev_exit: MessageWriter<AppExit>) {
 
 fn check_timer(
     mut commands: Commands,
-    mut game_manager: Single<&mut game_manager::GameManager>,
+    mut game_manager: Single<&mut GameManager>,
     time: Res<Time>,
 ) {
     game_manager.tick(time.delta());
 
     if game_manager.should_start() {
         match game_manager.current_game() {
-            game_manager::MiniGame::Chase => {
-                commands.trigger(chase::StartGame {});
-                commands.trigger(background::ChangeBackground::custom(
-                    "sprites/chase_background.png",
-                ));
+            MiniGame::Chase => {
+                commands.trigger(StartGame(MiniGame::Chase));
+                commands.trigger(ChangeBackground::custom("sprites/chase_background.png"));
             }
-            game_manager::MiniGame::Santa => {
-                commands.trigger(santa::StartGame {});
-                commands.trigger(background::ChangeBackground::custom(
-                    "sprites/santa_background.png",
-                ));
+            MiniGame::Santa => {
+                commands.trigger(StartGame(MiniGame::Santa));
+                commands.trigger(ChangeBackground::custom("sprites/santa_background.png"));
             }
         }
     } else if game_manager.should_end() {
         match game_manager.current_game() {
-            game_manager::MiniGame::Chase => commands.trigger(chase::EndGame {}),
-            game_manager::MiniGame::Santa => commands.trigger(santa::EndGame {}),
+            MiniGame::Chase => commands.trigger(EndGame(MiniGame::Chase)),
+            MiniGame::Santa => commands.trigger(EndGame(MiniGame::Santa)),
         };
 
-        commands.trigger(background::ChangeBackground::title());
+        commands.trigger(ChangeBackground::title());
     }
 }

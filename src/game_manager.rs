@@ -3,7 +3,8 @@ use std::time::Duration;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-#[derive(Clone, EnumIter)]
+// All new games need an entry here.
+#[derive(Clone, EnumIter, Eq, PartialEq)]
 pub(crate) enum MiniGame {
     Chase,
     Santa,
@@ -58,8 +59,8 @@ impl GameManager {
     }
 }
 
-// #[derive(Event)]
-// pub struct StartGame(MiniGame);
+#[derive(Event)]
+pub struct StartGame(pub(crate) MiniGame);
 
-// #[derive(Event)]
-// pub struct EndGame(MiniGame);
+#[derive(Event)]
+pub struct EndGame(pub(crate) MiniGame);
