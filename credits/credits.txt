@@ -1,0 +1,30 @@
+================================================================================
+                            SUPER ELFWARE!
+================================================================================
+
+                    Rust and C++ Dragons Game Jam
+                         Theme: "Elf on a Shelf"
+
+================================================================================
+                              GAME CREDITS
+================================================================================
+
+DEVELOPED BY:
+    Alex Payne
+
+GAME JAM:
+    Rust and C++ Dragons Game Jam
+
+GAME CONCEPT:
+    An experiment in creating a collection of microgames.
+    The idea is that the games only ever need WASD and SPACE controls, and the 
+    game being played will change every few seconds, similar to WarioWare.
+
+PROJECT CONCEPT:
+    I wanted to use Bevy's flexible Plugin system to create a game in which
+    future contributers could add their own microgames in the clear boundary of
+    a plugin, and have the game manager schedule all "plugged-in" games into 
+    the loop. 
+
+LICENSE:
+    Do what you want. Go nuts. I made this for fun.
