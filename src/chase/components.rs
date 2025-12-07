@@ -42,7 +42,6 @@ pub(super) struct Dog {}
 pub(super) struct DogBundle {
     dog: Dog,
     transform: Transform,
-    // sprite: Sprite,
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
@@ -56,7 +55,6 @@ impl Dog {
         DogBundle {
             dog: Dog {},
             transform: Transform::from_xyz(-400.0, 400.0, 0.0),
-            //sprite: Sprite::from_image(asset_server.load("sprites/zeus_1.png")),
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(64., 64.),
             gravity_scale: GravityScale(0.0),

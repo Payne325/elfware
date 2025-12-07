@@ -1,6 +1,5 @@
-use bevy::prelude::*;
-
 use crate::santa::{observers, states::SantaGameState, systems};
+use bevy::prelude::*;
 
 pub(crate) struct SantaPlugin;
 

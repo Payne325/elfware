@@ -1,11 +1,10 @@
-use bevy::prelude::*;
-
 use crate::chase::{
     components::{Dog, Elf},
     events::{EndGame, StartGame},
     states::ChaseGameState,
     systems::toggle_game_state,
 };
+use bevy::prelude::*;
 
 pub(super) fn observe_game_start(
     _event: On<StartGame>,
@@ -16,8 +15,6 @@ pub(super) fn observe_game_start(
 ) {
     commands.spawn(Elf::new_bundle(&asset_server));
     commands.spawn(Dog::new_bundle(&asset_server));
-
-    println!("BADABING!");
     toggle_game_state(state, next_state);
 }
 
@@ -31,6 +28,5 @@ pub(super) fn observe_game_end(
 ) {
     commands.entity(elf.entity()).despawn();
     commands.entity(dawg.entity()).despawn();
-    println!("BADABONG!");
     toggle_game_state(state, next_state);
 }

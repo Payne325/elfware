@@ -1,6 +1,3 @@
-//use avian2d::prelude::*;
-//use bevy::prelude::*;
-
 mod components;
 pub mod events;
 mod observers;

@@ -14,7 +14,6 @@ pub(super) fn move_elf(
 
     if keyboard.pressed(KeyCode::KeyW) && elf.0.y == 0.0 {
         elf.0.y = elf_jump_speed;
-        //elf.1.is_grounded = false;
     }
     if keyboard.pressed(KeyCode::KeyA) {
         elf.0.x = -elf_speed;

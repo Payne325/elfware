@@ -1,11 +1,10 @@
-use bevy::prelude::*;
-
 use crate::santa::{
     components::{Elf, Ground, Platform, Santa},
     events::{EndGame, StartGame},
     states::SantaGameState,
     systems::toggle_game_state,
 };
+use bevy::prelude::*;
 
 pub(super) fn observe_game_start(
     _event: On<StartGame>,
@@ -16,19 +15,15 @@ pub(super) fn observe_game_start(
     next_state: ResMut<NextState<SantaGameState>>,
 ) {
     let vp_size = camera.logical_viewport_size().unwrap();
+    let screen_size = (vp_size.x / 2.0, vp_size.y / 2.0);
 
-    let width = vp_size.x / 2.0;
-    let height = vp_size.y / 2.0;
+    commands.spawn(Elf::new_bundle(&asset_server, screen_size));
+    commands.spawn(Santa::new_bundle(&asset_server, screen_size));
+    commands.spawn(Ground::new_bundle(&asset_server, screen_size));
 
-    commands.spawn(Elf::new_bundle(&asset_server, (width, height)));
-    commands.spawn(Santa::new_bundle(&asset_server, (width, height)));
-    commands.spawn(Ground::new_bundle(&asset_server, (width, height)));
-
-    for platform in Platform::new_bundles(&asset_server, (width, height)) {
+    for platform in Platform::new_bundles(&asset_server, screen_size) {
         commands.spawn(platform);
     }
-
-    println!("BADABING!");
     toggle_game_state(state, next_state);
 }
 
@@ -49,7 +44,5 @@ pub(super) fn observe_game_end(
     for p in platform.iter() {
         commands.entity(p.entity()).despawn();
     }
-
-    println!("BADABONG!");
     toggle_game_state(state, next_state);
 }

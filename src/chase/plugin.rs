@@ -1,6 +1,5 @@
-use bevy::prelude::*;
-
 use crate::chase::{observers, states::ChaseGameState, systems};
+use bevy::prelude::*;
 
 pub(crate) struct ChasePlugin;
 

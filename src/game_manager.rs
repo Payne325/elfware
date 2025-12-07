@@ -57,3 +57,9 @@ impl GameManager {
         self.current_game.clone()
     }
 }
+
+// #[derive(Event)]
+// pub struct StartGame(MiniGame);
+
+// #[derive(Event)]
+// pub struct EndGame(MiniGame);

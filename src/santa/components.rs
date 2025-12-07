@@ -3,9 +3,7 @@ use bevy::prelude::*;
 use bevy_aseprite_ultra::prelude::*;
 
 #[derive(Component)]
-pub(super) struct Elf {
-    //pub(super) is_grounded: bool,
-}
+pub(super) struct Elf {}
 
 #[derive(Bundle)]
 pub(super) struct ElfBundle {
@@ -30,7 +28,7 @@ impl Elf {
         let y_pos = (-screen_size.1 * 0.9) + (elf_size);
 
         ElfBundle {
-            elf: Elf {}, //is_grounded: false },
+            elf: Elf {},
             transform: Transform::from_xyz(x_pos, y_pos, 0.0),
             rigid_body: RigidBody::Dynamic,
             collider: Collider::rectangle(elf_size, elf_size),
@@ -94,7 +92,6 @@ pub(super) struct GroundBundle {
     rigid_body: RigidBody,
     collider: Collider,
     gravity_scale: GravityScale,
-    // collision_events: CollisionEventsEnabled,
 }
 
 impl Ground {
