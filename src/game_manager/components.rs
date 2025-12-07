@@ -1,17 +1,10 @@
+use crate::game_manager::{MiniGame, MiniGameIter};
 use bevy::prelude::*;
 use std::time::Duration;
 use strum::IntoEnumIterator;
-use strum_macros::EnumIter;
-
-// All new games need an entry here.
-#[derive(Clone, Debug, EnumIter, Eq, Hash, PartialEq)]
-pub(crate) enum MiniGame {
-    Chase,
-    Santa,
-}
 
 #[derive(Component)]
-pub(crate) struct GameManager {
+pub(super) struct GameManager {
     timer: Timer,
     waiting_to_start: bool,
     current_game: MiniGame,
@@ -19,7 +12,7 @@ pub(crate) struct GameManager {
 }
 
 impl GameManager {
-    pub(crate) fn new() -> Self {
+    pub(super) fn new() -> Self {
         Self {
             timer: Timer::new(Duration::from_secs(5), TimerMode::Repeating),
             waiting_to_start: true,
@@ -28,7 +21,7 @@ impl GameManager {
         }
     }
 
-    pub(crate) fn tick(&mut self, delta: Duration) {
+    pub(super) fn tick(&mut self, delta: Duration) {
         self.timer.tick(delta);
 
         if self.timer.is_finished() {
@@ -46,39 +39,15 @@ impl GameManager {
         }
     }
 
-    pub(crate) fn should_start(&self) -> bool {
+    pub(super) fn should_start(&self) -> bool {
         self.timer.is_finished() && self.waiting_to_start
     }
 
-    pub(crate) fn should_end(&self) -> bool {
+    pub(super) fn should_end(&self) -> bool {
         self.timer.is_finished() && !self.waiting_to_start
     }
 
-    pub(crate) fn current_game(&self) -> MiniGame {
+    pub(super) fn current_game(&self) -> MiniGame {
         self.current_game.clone()
-    }
-}
-
-#[derive(Event)]
-pub struct StartGame(pub(crate) MiniGame);
-
-#[derive(Event)]
-pub struct EndGame(pub(crate) MiniGame);
-
-#[derive(States, Default, Debug, Clone, PartialEq, Eq, Hash)]
-pub(crate) enum GameState {
-    On(MiniGame),
-    #[default]
-    Off,
-}
-
-pub(crate) fn toggle_game_state(
-    state: Res<State<GameState>>,
-    mut next_state: ResMut<NextState<GameState>>,
-    game: MiniGame,
-) {
-    match state.get() {
-        GameState::On(_) => next_state.set(GameState::Off),
-        GameState::Off => next_state.set(GameState::On(game)),
     }
 }
