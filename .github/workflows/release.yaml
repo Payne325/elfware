@@ -131,11 +131,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-      - name: Install dotnet
-        if: ${{ env.BUILD_INSTALLER }}
-        uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: build/windows/installer/global.json
       - name: Build release
         run: |
           bevy build --release
