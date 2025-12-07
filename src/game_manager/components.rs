@@ -32,10 +32,18 @@ impl GameManager {
 
             if self.waiting_to_start {
                 match self.game_iter.next() {
-                    Some(game) => self.current_game = game,
+                    Some(game) => {
+                        println!("Next game is {game:?}");
+                        self.current_game = game;
+                    }
                     None => {
-                        self.current_game = MiniGame::Chase;
+                        println!("Go round again");
                         self.game_iter = MiniGame::iter();
+                        self.current_game = self.game_iter.next().unwrap_or_else(|| {
+                            println!("DEBUG: GameManager Expected game iter to be some.");
+                            MiniGame::Chase
+                        });
+                        println!("Next game is {:?}", self.current_game);
                     }
                 }
             }
